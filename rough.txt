@@ -1,0 +1,40 @@
+vlan 10
+name DATA
+exit
+vlan 255
+name VOICE
+exit
+vlan 325
+name MANAGEMENT
+exit
+vlan 100
+name R1-INET
+exit
+vlan 300
+name R3-INET
+exit
+vlan 400
+name R4-INET
+exit
+vlan 123
+name NATIVE
+exit
+vlan 999
+name UNUSED
+exit
+
+
+channel-group 3 mode desirable non-silent
+
+channel-group 2 mode active
+
+
+int vlan 10
+ip add 172.16.25.20 255.255.255.0
+exit
+int vlan 225
+ip add 172.16.125.20 255.255.255.0
+exit
+int vlan 325
+ip add 172.16.225.20 255.255.255.0
+exi

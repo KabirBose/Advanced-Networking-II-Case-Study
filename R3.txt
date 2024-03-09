@@ -1,0 +1,106 @@
+hostname Ottawa
+!
+!
+!
+vrf definition Mgmt-intf
+ !
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+!
+!
+!
+no ip domain lookup
+!
+!
+!
+spanning-tree extend system-id
+!
+!
+redundancy
+ mode none
+!
+!
+!
+interface Loopback1
+ ip address 3.3.3.3 255.255.255.255
+ ip nat inside
+!
+interface Loopback101
+ ip address 172.16.84.25 255.255.255.0
+ ip nat inside
+!
+interface Loopback102
+ ip address 172.16.85.25 255.255.255.0
+ ip nat inside
+!
+interface Loopback103
+ ip address 172.16.86.25 255.255.255.0
+ ip nat inside
+!
+interface GigabitEthernet0/0/0
+ description Link to MPLS Cloud
+ ip address 10.202.20.3 255.255.255.248
+ negotiation auto
+!
+interface GigabitEthernet0/0/1
+ description Link to Internet
+ ip address 209.165.200.25 255.255.255.0
+ ip nat outside
+ negotiation auto
+!
+interface GigabitEthernet0/0/2
+ no ip address
+ negotiation auto
+!
+!
+interface GigabitEthernet0
+ vrf forwarding Mgmt-intf
+ ip dhcp client client-id ascii FLM242611YA
+ ip address dhcp
+ shutdown
+ negotiation auto
+!
+ip forward-protocol nd
+ip http server
+ip http authentication local
+ip http secure-server
+ip http client source-interface GigabitEthernet0
+ip nat inside source list NAT-ACL interface GigabitEthernet0/0/1 overload
+ip route 0.0.0.0 0.0.0.0 209.165.200.254
+!
+!
+ip access-list standard NAT-ACL
+ 20 permit 3.3.3.3
+ 10 permit 172.16.0.0 0.0.255.255
+!
+!
+control-plane
+!
+!
+line con 0
+ exec-timeout 0 0
+ logging synchronous
+ stopbits 1
+line aux 0
+ stopbits 1
+line vty 0 4
+ login
+!
+!
+!
+end
+
+
+interface Serial0/1/0
+ no ip address
+ shutdown
+ clock rate 64000
+!
+interface Serial0/1/1
+ no ip address
+ shutdown
+ clock rate 64000
