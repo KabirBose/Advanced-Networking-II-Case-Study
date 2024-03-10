@@ -22,19 +22,3 @@ exit
 vlan 999
 name UNUSED
 exit
-
-
-channel-group 3 mode desirable non-silent
-
-channel-group 2 mode active
-
-
-int vlan 10
-ip add 172.16.25.20 255.255.255.0
-exit
-int vlan 225
-ip add 172.16.125.20 255.255.255.0
-exit
-int vlan 325
-ip add 172.16.225.20 255.255.255.0
-exi
