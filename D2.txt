@@ -18,11 +18,128 @@ vrf definition Mgmt-vrf
  exit-address-family
 !
 !
+no aaa new-model
+switch 1 provision c9300l-24p-4g
+!
+!
+!
+!
+call-home
+ ! If contact email address in call-home is configured as sch-smart-licensing@cisco.com
+ ! the email address configured in Cisco Smart License Portal will be used as contact email address to send SCH notifications.
+ contact-email-addr sch-smart-licensing@cisco.com
+ profile "CiscoTAC-1"
+  active
+  destination transport-method http
+  no destination transport-method email
+!
+!
+!
+!
+login on-success log
+!
+!
+!
+!
+!
+!
+!
+no device-tracking logging theft
+!
+crypto pki trustpoint SLA-TrustPoint
+ enrollment pkcs12
+ revocation-check crl
+!
+crypto pki trustpoint TP-self-signed-813804881
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-813804881
+ revocation-check none
+ rsakeypair TP-self-signed-813804881
+!
+!
+crypto pki certificate chain SLA-TrustPoint
+ certificate ca 01
+crypto pki certificate chain TP-self-signed-813804881
+ certificate self-signed 01
+!
+!
+license boot level network-advantage
+!
+!
+diagnostic bootup level minimal
+!
 spanning-tree mode rapid-pvst
 spanning-tree extend system-id
 spanning-tree vlan 10,325 priority 28672
 spanning-tree vlan 225 priority 24576
 memory free low-watermark processor 134325
+!
+!
+redundancy
+ mode sso
+!
+!
+!
+!
+!
+transceiver type all
+ monitoring
+!
+track 150 interface Port-channel2 line-protocol
+!
+!
+class-map match-any system-cpp-police-ewlc-control
+  description EWLC Control
+class-map match-any system-cpp-police-topology-control
+  description Topology control
+class-map match-any system-cpp-police-sw-forward
+  description Sw forwarding, L2 LVX data packets, LOGGING, Transit Traffic
+class-map match-any system-cpp-default
+  description EWLC Data, Inter FED Traffic
+class-map match-any system-cpp-police-sys-data
+  description Openflow, Exception, EGR Exception, NFL Sampled Data, RPF Failed
+class-map match-any system-cpp-police-punt-webauth
+  description Punt Webauth
+class-map match-any system-cpp-police-l2lvx-control
+  description L2 LVX control packets
+class-map match-any system-cpp-police-forus
+  description Forus Address resolution and Forus traffic
+class-map match-any system-cpp-police-multicast-end-station
+  description MCAST END STATION
+class-map match-any system-cpp-police-high-rate-app
+  description High Rate Applications
+class-map match-any system-cpp-police-multicast
+  description MCAST Data
+class-map match-any system-cpp-police-l2-control
+  description L2 control
+class-map match-any system-cpp-police-dot1x-auth
+  description DOT1X Auth
+class-map match-any system-cpp-police-data
+  description ICMP redirect, ICMP_GEN and BROADCAST
+class-map match-any system-cpp-police-stackwise-virt-control
+  description Stackwise Virtual OOB
+class-map match-any non-client-nrt-class
+class-map match-any system-cpp-police-routing-control
+  description Routing control and Low Latency
+class-map match-any system-cpp-police-protocol-snooping
+  description Protocol snooping
+class-map match-any system-cpp-police-dhcp-snooping
+  description DHCP snooping
+class-map match-any system-cpp-police-ios-routing
+  description L2 control, Topology control, Routing control, Low Latency
+class-map match-any system-cpp-police-system-critical
+  description System Critical and Gold Pkt
+class-map match-any system-cpp-police-ios-feature
+  description ICMPGEN,BROADCAST,ICMP,L2LVXCntrl,ProtoSnoop,PuntWebauth,MCASTData,Transit,DOT1XAuth,Swfwd,LOGGING,L2LVXData,ForusTraffic,ForusARP,McastEndStn,Openflow,Exception,EGRExcption,NflSampled,RpfFailed
+!
+policy-map system-cpp-policy
+!
+!
+!
+!
+!
+!
+!
 !
 !
 !
@@ -233,6 +350,8 @@ interface Vlan1
 !
 interface Vlan10
  ip address 172.16.25.10 255.255.255.0
+ standby 50 ip 172.16.25.254
+ standby 50 preempt
 !
 interface Vlan100
  vrf forwarding INET
@@ -240,6 +359,9 @@ interface Vlan100
 !
 interface Vlan225
  ip address 172.16.125.10 255.255.255.0
+ standby 100 ip 172.16.125.254
+ standby 100 preempt
+ standby 150 track 150 decrement 60
 !
 interface Vlan300
  vrf forwarding INET
@@ -247,6 +369,8 @@ interface Vlan300
 !
 interface Vlan325
  ip address 172.16.225.10 255.255.255.0
+ standby 150 ip 172.16.225.254
+ standby 150 preempt
 !
 interface Vlan400
  vrf forwarding INET
@@ -257,7 +381,6 @@ ip http server
 ip http authentication local
 ip http secure-server
 ip http client source-interface GigabitEthernet0/0
-ip tftp source-interface GigabitEthernet0/0
 !
 !
 !
@@ -288,6 +411,7 @@ end
 
 
 
+
 VTP Version capable             : 1 to 3
 VTP version running             : 3
 VTP Domain Name                 : OTU25
@@ -301,11 +425,11 @@ VTP Operating Mode                : Client
 Number of existing VLANs          : 13
 Number of existing extended VLANs : 0
 Maximum VLANs supported locally   : 4096
-Configuration Revision            : 2
+Configuration Revision            : 3
 Primary ID                        : 7061.7b8d.0f80
 Primary Description               : TOR-D1
-MD5 digest                        : 0xFB 0xB3 0x36 0x0B 0xE4 0xD0 0x19 0x74
-                                    0x7A 0xCE 0x59 0xF4 0x2F 0xB9 0x65 0x98
+MD5 digest                        : 0xB0 0x37 0x62 0x9F 0x97 0xAF 0xD4 0xB9
+                                    0x5C 0x24 0x6A 0xA3 0x98 0x37 0x09 0xE7
 
 
 Feature MST:
@@ -316,6 +440,7 @@ VTP Operating Mode                : Transparent
 Feature UNKNOWN:
 --------------
 VTP Operating Mode                : Transparent
+
 
 
 

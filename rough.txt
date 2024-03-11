@@ -1,3 +1,4 @@
+VLANS
 vlan 10
 name DATA
 exit
@@ -22,3 +23,37 @@ exit
 vlan 999
 name UNUSED
 exit
+
+
+HSRP
+interface vlan 10
+   standby 50 ip 172.16.25.254
+   standby 50 priority 100
+   standby 50 preempt
+
+interface vlan 225
+   standby 100 ip 172.16.125.254
+   standby 100 priority 100
+   standby 100 preempt
+
+interface vlan 325
+   standby 150 ip 172.16.225.254
+   standby 150 priority 100
+   standby 150 preempt
+
+
+HSRP Tracking
+track 150 interface Port-channel2 line-protocol
+interface vlan 225
+   standby 150 track 150 decrement 60
+
+Default Gateway
+ip default-gateway 172.16.25.254
+
+MPLS
+interface <interface connecting Toronto R1 to ISP R2>
+   mpls ip
+   mpls label protocol ldp
+
+conf t
+mpls ldp router-id loopback1 force
