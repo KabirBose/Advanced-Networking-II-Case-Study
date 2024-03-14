@@ -29,7 +29,7 @@ redundancy
  mode sso
 !
 !
-track 150 interface Port-channel2 line-protocol
+track 275 interface Port-channel2 line-protocol
 !
 !
 interface Port-channel1
@@ -238,8 +238,10 @@ interface Vlan1
 !
 interface Vlan10
  ip address 172.16.25.10 255.255.255.0
- standby 50 ip 172.16.25.254
- standby 50 preempt
+ standby version 2
+ standby 60 ip 172.16.25.254
+ standby 60 priority 100
+ standby 60 preempt
 !
 interface Vlan100
  vrf forwarding INET
@@ -247,9 +249,11 @@ interface Vlan100
 !
 interface Vlan225
  ip address 172.16.125.10 255.255.255.0
- standby 100 ip 172.16.125.254
- standby 100 preempt
- standby 150 track 150 decrement 60
+ standby version 2
+ standby 275 ip 172.16.125.254
+ standby 275 priority 100
+ standby 275 preempt
+ standby 275 track 275 decrement 120
 !
 interface Vlan300
  vrf forwarding INET
@@ -257,8 +261,10 @@ interface Vlan300
 !
 interface Vlan325
  ip address 172.16.225.10 255.255.255.0
- standby 150 ip 172.16.225.254
- standby 150 preempt
+ standby version 2
+ standby 375 ip 172.16.225.254
+ standby 375 priority 100
+ standby 375 preempt
 !
 interface Vlan400
  vrf forwarding INET

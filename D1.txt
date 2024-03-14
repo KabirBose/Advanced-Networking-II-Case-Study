@@ -230,21 +230,24 @@ interface Vlan1
 !
 interface Vlan10
  ip address 172.16.25.5 255.255.255.0
- standby 50 ip 172.16.25.254
- standby 50 priority 110
- standby 50 preempt
+ standby version 2
+ standby 60 ip 172.16.25.254
+ standby 60 priority 110
+ standby 60 preempt
 !
 interface Vlan225
  ip address 172.16.125.5 255.255.255.0
- standby 100 ip 172.16.125.254
- standby 100 priority 110
- standby 100 preempt
+ standby version 2
+ standby 275 ip 172.16.125.254
+ standby 275 priority 110
+ standby 275 preempt
 !
 interface Vlan325
  ip address 172.16.225.5 255.255.255.0
- standby 150 ip 172.16.225.254
- standby 150 priority 110
- standby 150 preempt
+ standby version 2
+ standby 375 ip 172.16.225.254
+ standby 375 priority 110
+ standby 375 preempt
 !
 ip forward-protocol nd
 ip http server
