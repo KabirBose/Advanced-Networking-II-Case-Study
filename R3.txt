@@ -1,8 +1,5 @@
 hostname Ottawa
 !
-boot-start-marker
-boot-end-marker
-!
 !
 vrf definition Mgmt-intf
  !
@@ -13,88 +10,11 @@ vrf definition Mgmt-intf
  exit-address-family
 !
 !
-no aaa new-model
-call-home
- ! If contact email address in call-home is configured as sch-smart-licensing@cisco.com
- ! the email address configured in Cisco Smart License Portal will be used as contact email address to send SCH notifications.
- contact-email-addr sch-smart-licensing@cisco.com
- profile "CiscoTAC-1"
-  active
-  destination transport-method http
-  no destination transport-method email
-!
-!
-!
-!
-!
-!
-!
-no ip domain lookup
-!
-!
-!
-login on-success log
-!
-!
-!
-!
-!
-!
-!
-subscriber templating
-! 
-! 
-! 
-! 
-!
-!
-multilink bundle-name authenticated
-!
-!
-!
-!         
-!
-crypto pki trustpoint TP-self-signed-2860827670
- enrollment selfsigned
- subject-name cn=IOS-Self-Signed-Certificate-2860827670
- revocation-check none
- rsakeypair TP-self-signed-2860827670
-!
-crypto pki trustpoint SLA-TrustPoint
- enrollment pkcs12
- revocation-check crl
-!
-!
-crypto pki certificate chain TP-self-signed-2860827670
- certificate self-signed 01
-crypto pki certificate chain SLA-TrustPoint
- certificate ca 01
-!
-!
-no license feature hseck9
-license udi pid ISR4331/K9 sn FLM242100AJ
-license boot level appxk9
-license boot level uck9 disable
-license boot level securityk9
-memory free low-watermark processor 67065
-!
-diagnostic bootup level minimal
-!
 spanning-tree extend system-id
 !
 !
 redundancy
  mode none
-!
-!
-!
-!
-!
-!
-!
-! 
-!
-!
 !
 !
 crypto isakmp policy 25
@@ -103,14 +23,6 @@ crypto isakmp policy 25
  authentication pre-share
 crypto isakmp key KMZ25 address 0.0.0.0        
 !
-!
-!
-!
-!
-!
-!
-! 
-! 
 !
 !
 interface Loopback1
@@ -212,9 +124,6 @@ line aux 0
  stopbits 1
 line vty 0 4
  login
-!
-!
-!
 !
 !
 !
