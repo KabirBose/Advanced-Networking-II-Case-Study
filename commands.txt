@@ -1,0 +1,31 @@
+vlan 10
+name DATA
+exit
+vlan 255
+name VOICE
+exit
+vlan 325
+name MANAGEMENT
+exit
+vlan 100
+name R1-INET
+exit
+vlan 300
+name R3-INET
+exit
+vlan 400
+name R4-INET
+exit
+vlan 123
+name NATIVE
+exit
+vlan 999
+name UNUSED
+exit
+
+
+crypto ipsec profile KMZ25_PROFILE
+set transform-set KMZ25_TRANS
+exi
+int tunnel1
+tunnel protection ipsec profile KMZ25_PROFILE
