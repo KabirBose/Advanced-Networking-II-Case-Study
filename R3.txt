@@ -77,9 +77,6 @@ interface GigabitEthernet0/0/2
  shutdown
  negotiation auto
 !
-interface Serial0/1/0
-!
-interface Serial0/1/1
 !
 interface GigabitEthernet0
  vrf forwarding Mgmt-intf
@@ -136,3 +133,11 @@ line vty 0 4
 !
 !
 end
+
+interface Serial0/1/0
+  no ip address 
+  clock rate 64000
+!
+interface Serial0/1/1
+  no ip address 
+  clock rate 64000
