@@ -22,7 +22,3 @@ exit
 vlan 999
 name UNUSED
 exit
-
-
-clock timezone EST -5
-clock summer-time EDT recurring
