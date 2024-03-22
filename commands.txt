@@ -24,9 +24,5 @@ name UNUSED
 exit
 
 
-router eigrp <EIGRP_Instance_Name>
- address-family ipv4 unicast autonomous-system <AS_Number>
-  af-interface <Tunnel_Interface>
-   summary-address 172.16.0.0 255.255.0.0
-  exit-af-interface
- exit-address-family
+clock timezone EST -5
+clock summer-time EDT recurring
