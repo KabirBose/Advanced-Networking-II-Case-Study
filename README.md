@@ -6,7 +6,7 @@ A lab case study that I completed in my Advanced Networking II class that applie
 
 I cannot post the topology as it would go against the guidelines of my university, however this network can be configured with the following:
 1. Cisco IOS
-2. Eve-NG, GNS3, or Cisco CML
+2. Eve-NG, GNS3 or Cisco CML
 
 *Some features will not be supported by Cisco Packet Tracer*
 
